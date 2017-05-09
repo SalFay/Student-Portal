@@ -1,0 +1,30 @@
+.chat-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 76%;
+    border: 2px groove #2a6496;
+}
+
+.chat-header {
+    background: #2a6496;
+    padding: 4px;
+    color: whitesmoke;
+}
+
+.chat-body {
+    background-color: mintcream;
+    padding: 5px;
+}
+
+.chat-message-wrapper {
+    border: 1px solid #3d4421;
+    min-width: 300px;
+    height: 250px;
+    margin-bottom:5px;
+    overflow-y: scroll;
+}
+
+.chat-form-wrapper {
+    margin-top: 5px;
+    padding-bottom: 5px;
+}
