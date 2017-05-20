@@ -38,20 +38,20 @@ if (empty($_SESSION["std_id"])) {
                                     <td><?php echo $r->user_name ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Name:</strong></td>
-                                    <td><?php echo $r->user_name ?></td>
+                                    <td><strong>Email:</strong></td>
+                                    <td><?php echo $r->user_email ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Name:</strong></td>
-                                    <td><?php echo $r->user_name ?></td>
+                                    <td><strong>Date of Birth:</strong></td>
+                                    <td><?php echo $r->user_dob ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Name:</strong></td>
-                                    <td><?php echo $r->user_name ?></td>
+                                    <td><strong>Address:</strong></td>
+                                    <td><?php echo $r->user_address ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Name:</strong></td>
-                                    <td><?php echo $r->user_name ?></td>
+                                    <td><strong>Gender:</strong></td>
+                                    <td><?php echo $r->user_gender ?></td>
                                 </tr>
                             </table>
                         </div>

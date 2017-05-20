@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_WARNING | E_ERROR | E_COMPILE_ERROR | E_PARSE);
 define("DB_HOST", "localhost");
 
 define("DB_USER","root");

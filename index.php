@@ -44,10 +44,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
-                        <h2>Principal Message</h2>
-                        <img src="content/theme/img/principal.jpg" class="pull-left img-rounded img-thumbnail" style="height: 200px;" />
+                        <h2>AIR VICE MARSHAL FAAIZ AMIR</h2>
+                        <img src="http://www.au.edu.pk/Au_Web/web/images/vc.jpg" class="pull-left img-rounded img-thumbnail" style="height: 200px;" />
                         <div>
-                            Jahanzeb College, an invaluable gift of the ex-ruler of Swat with its majestic building laying in the heart of the lush green valley, has a fecund and glorious past and enjoys a towering status among the educational institutions of this country. The graduates from this institution serve the nation and the international community successfully in various capacities. This institution provides quality education to the youth of this area in various disciplines. Presently, it offers admissions in seven different disciplines at postgraduate level and in nine disciplines at the BS level. The BS 4 year integrated degree program is successfully going on here in this institution and has attracted students of both genders from all parts of the province. The demand of the public for further expansion of the BS 4 year degree program is always on the increase, and hopefully, keeping in view the need of the time, we will initiate this program in more disciplines in the near future. I see that time is not far, when Jahanzeb College would become a full pledged university on its own. I wish and hope that both the teachers and taught of this institution would add laurels to the good name of this college and would let no stone unturned in making this dream a reality. 
+                            I appreciate your interest in Air University study programmes and assure you that you are making a right choice. As our prospective student, you will find that our campus, located at the foot hills of Margalla Hills in Islamabad, offers enormous and unique opportunities for academic, social, and personal growth.
                         </div>
                     </div>
                 </div>

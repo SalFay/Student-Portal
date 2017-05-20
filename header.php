@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 require 'config.php';
 require 'inc/loader.php';
@@ -40,7 +41,18 @@ require 'inc/loader.php';
                 <div class="menuextras">
                     <div class="extras">
                         <ul>
-                            <li><a href="login.php"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
+                            <?php
+                            if(empty($_SESSION['std_name'])){
+                                ?>
+                                <li><a href="login.php"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
+                            <?php
+                            }else{
+                                ?>
+                                <li><a href="logout.php"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                            <?php
+                            }
+                            ?>
+                            <li><a href="admin"><i class="glyphicon glyphicon-log-in"></i> Admin Login</a></li>
                         </ul>
                     </div>
                 </div>

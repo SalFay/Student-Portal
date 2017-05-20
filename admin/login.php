@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require '../config.php';
 require '../inc/loader.php';
 session_start();

@@ -33,7 +33,7 @@ if (empty($_SESSION['std_name']) && empty($_SESSION['user_name'])) {
         $('body').on('submit', '#chat-form',function (e) {
             e.preventDefault();
             $.ajax({
-                url: '<?php echo SITE_URL ?>/content/files/chat-submit.php',
+                url: '/content/files/chat-submit.php',
                 data: $(this).serialize(),
                 type: 'POST',
                 success: function (data) {
@@ -44,13 +44,13 @@ if (empty($_SESSION['std_name']) && empty($_SESSION['user_name'])) {
         });
         setInterval(function(){
             refresh_chat();
-        },2000);
+        },5000);
 ;
     });
 
     function refresh_chat(){
         $.ajax({
-            url: '<?php echo SITE_URL ?>/content/files/chat-refresh.php',
+            url: '/content/files/chat-refresh.php',
             success: function (data) {
                 $("#chat-messages").html(data);
             }
