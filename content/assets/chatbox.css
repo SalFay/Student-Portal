@@ -3,12 +3,14 @@
     bottom: 0;
     left: 76%;
     border: 2px groove #2a6496;
+    z-index: 999999;
 }
 
 .chat-header {
     background: #2a6496;
     padding: 4px;
     color: whitesmoke;
+    width:310px;
 }
 
 .chat-body {

@@ -8,9 +8,7 @@ if (empty($_SESSION['std_name']) && empty($_SESSION['user_name'])) {
         <strong>Chat</strong>
     </div>
     <div id="chatbox" class="chat-body">
-        <div class="chat-message-wrapper" id="chat-messages">
-
-        </div>
+        <div class="chat-message-wrapper" id="chat-messages"></div>
         <div class="chat-from-wrapper">
             <form method="post" id="chat-form">
                 <div class="row">
@@ -33,7 +31,7 @@ if (empty($_SESSION['std_name']) && empty($_SESSION['user_name'])) {
         $('body').on('submit', '#chat-form',function (e) {
             e.preventDefault();
             $.ajax({
-                url: '/content/files/chat-submit.php',
+                url: 'content/files/chat-submit.php',
                 data: $(this).serialize(),
                 type: 'POST',
                 success: function (data) {
@@ -45,12 +43,11 @@ if (empty($_SESSION['std_name']) && empty($_SESSION['user_name'])) {
         setInterval(function(){
             refresh_chat();
         },5000);
-;
     });
 
     function refresh_chat(){
         $.ajax({
-            url: '/content/files/chat-refresh.php',
+            url: './content/files/chat-refresh.php',
             success: function (data) {
                 $("#chat-messages").html(data);
             }

@@ -1,10 +1,10 @@
 <?php
 ob_start();
-require '../config.php';
-require '../inc/loader.php';
+require __DIR__.'/../config.php';
+require __DIR__.'/../inc/loader.php';
 session_start();
-if (!isset($_SESSION["user_id"]) && !isset($_SESSION["user_level"])) {
-    header("location:login.php");
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_level'])) {
+    header('location:login.php');
     exit();
 }
 ?>
