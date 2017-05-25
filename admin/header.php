@@ -104,8 +104,8 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_level'])) {
                     }
                     ?>
                     <a href="announcements.php" class="list-group-item">Announcements</a>
-                    <a href="attendance.php.php" class="list-group-item">Attendance</a>
-                    <a href="library.php.php" class="list-group-item">Library</a>
+                    <a href="attendance.php" class="list-group-item">Attendance</a>
+                    <a href="library.php" class="list-group-item">Library</a>
                     <a href="exams.php" class="list-group-item">Manage Exams</a>
                     <a href="test.php" class="list-group-item">Manage Test</a>
                     <a href="students.php" class="list-group-item">Manage Students</a>

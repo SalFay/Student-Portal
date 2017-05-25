@@ -25,6 +25,7 @@ if (empty($_SESSION['std_name']) && empty($_SESSION['user_name'])) {
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#chatbox").slideUp();
         $('body').on('click','#chat-head',function(){
             $("#chatbox").slideToggle();
         });
