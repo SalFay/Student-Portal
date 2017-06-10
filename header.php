@@ -63,8 +63,10 @@ require __DIR__ . '/inc/loader.php';
         </div>
         <nav id="mainmenu" class="mainmenu">
             <ul>
-                <li class="logo-wrapper"><a href="index.html"><img src="content/theme/img/mPurpose-logo.png"
-                                                                   alt="Multipurpose Twitter Bootstrap Template"></a>
+                <li class="logo-wrapper">
+                    <a href="/">
+                        <img src="content/theme/img/mPurpose-logo.png" alt="Multipurpose Twitter Bootstrap Template">
+                    </a>
                 </li>
                 <?php
                 $db = new Database();
