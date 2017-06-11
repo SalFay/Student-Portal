@@ -65,8 +65,8 @@ if (isset($_GET["action"])) {
                 </div>
                 <div class="panel-body">
                     <?php
-                    if (isset($_POST["publish"])) {
-                        $name = cleanString($_POST["name"]);
+                    if (isset($_POST['publish'])) {
+                        $name = cleanString($_POST['name']);
                         $semester = cleanString($_POST["semester"]);
                         $contact = cleanString($_POST["contact"]);
                         if (empty($name) || empty($semester) || empty($contact)) {
@@ -108,7 +108,7 @@ if (isset($_GET["action"])) {
         }
     } else if ($a === "delete") {
         if (isset($_GET["id"])) {
-            $id = intval(cleanString($_GET["id"]));
+            $id = (int)cleanString($_GET["id"]);
             try {
                 $db->runQuery("DELETE FROM departments WHERE department_id = ?", array($id));
                 msgBox("ok", "Department Deleted");
@@ -144,7 +144,7 @@ if (isset($_GET["action"])) {
                 </tr>
                 <?php
                 try {
-                    $db->query("SELECT * FROM departments");
+                    $db->query('SELECT * FROM departments');
                     while ($r = $db->fetchObject()) {
                         echo "
                             <tr>
@@ -153,7 +153,7 @@ if (isset($_GET["action"])) {
                                 <td>$r->department_contact</td>
                                 <td>
                                     <div class='btn-group'>
-                                        <a href='' class='btn btn-success'>View</a>
+                                        <a href='semester.php?d=".$r->department_id."' class='btn btn-success'>Open</a>
                                         <a href='departments.php?action=edit&amp;id=$r->department_id' class='btn btn-primary'>Edit</a>
                                         <a href='departments.php?action=delete&amp;id=$r->department_id' class='btn btn-danger'>Delete</a>
                                     </div>

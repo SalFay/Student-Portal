@@ -1,6 +1,10 @@
-<?php require 'header.php' ?>
+<?php require __DIR__.'/header.php' ?>
 <?php
 $db = new Database();
+$department = (int) $_GET['d'];
+$semester = (int) $_GET['s'];
+$course = (int) $_GET['c'];
+$params = 'd='.$department.'&amp;s='.$semester.'&amp;c='.$course;
 if (isset($_GET["action"])) {
     $a = cleanString($_GET["action"]);
     if ($a === "add") {
@@ -10,6 +14,10 @@ if (isset($_GET["action"])) {
                 <div class="panel-title">
                     Add Test
                 </div>
+                <div class="btn-group btn-group-sm pull-right">
+                    <a href="test.php?<?php echo $params ?>">All Tests</a>
+                    <div class="clearfix"></div>
+                </div>
             </div>
             <div class="panel-body">
                 <?php
@@ -17,9 +25,6 @@ if (isset($_GET["action"])) {
                     $name = cleanString($_POST["name"]);
                     $body = $_POST["body"];
                     $teacher = cleanString($_POST["teacher"]);
-                    $course = cleanString($_POST["course"]);
-                    $department = cleanString($_POST["department"]);
-                    $semester = cleanString($_POST["semester"]);
                     $date = cleanString($_POST["date"]);
                     $marks = cleanString($_POST["marks"]);
                     if (empty($name) || empty($date)) {
@@ -54,20 +59,20 @@ if (isset($_GET["action"])) {
                     </div>
                     <div class="form-group">
                         <label>Department</label>
-                        <select name="department" class="form-control">
-                            <?php echo list_departments(); ?>
+                        <select name="department" class="form-control" readonly="">
+                            <?php echo list_departments($department); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Semester</label>
-                        <select name="semester" class="form-control">
-                            <?php echo list_semesters(); ?>
+                        <select name="semester" class="form-control" readonly="">
+                            <?php echo list_semesters($semester); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Course</label>
-                        <select name="course" class="form-control">
-                            <?php echo list_courses(); ?>
+                        <select name="course" class="form-control" readonly="">
+                            <?php echo list_courses($course); ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -92,6 +97,15 @@ if (isset($_GET["action"])) {
                 <div class="panel-title">
                     Edit Test
                 </div>
+                <div class="btn-group btn-group-sm pull-right">
+                    <a href="test.php?<?php echo $params ?>" class="btn btn-success">
+                        All Tests
+                    </a>
+                    <a href="test.php?action=add&amp;<?php echo $params ?>" class="btn btn-primary">
+                        Add Test
+                    </a>
+                    <div class="clearfix"></div>
+                </div>
             </div>
             <div class="panel-body">
                 <?php
@@ -99,9 +113,6 @@ if (isset($_GET["action"])) {
                     $name = cleanString($_POST["name"]);
                     $body = $_POST["body"];
                     $teacher = cleanString($_POST["teacher"]);
-                    $course = cleanString($_POST["course"]);
-                    $department = cleanString($_POST["department"]);
-                    $semester = cleanString($_POST["semester"]);
                     $date = cleanString($_POST["date"]);
                     $marks = cleanString($_POST["marks"]);
                     if (empty($name) || empty($date)) {
@@ -142,19 +153,19 @@ if (isset($_GET["action"])) {
                     </div>
                     <div class="form-group">
                         <label>Department</label>
-                        <select name="department" class="form-control">
+                        <select name="department" class="form-control" readonly="">
                             <?php echo list_departments($r->test_department); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Semester</label>
-                        <select name="semester" class="form-control">
+                        <select name="semester" class="form-control" readonly="">
                             <?php echo list_semesters($r->test_semester); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Course</label>
-                        <select name="course" class="form-control">
+                        <select name="course" class="form-control" readonly="">
                             <?php echo list_courses($r->test_course); ?>
                         </select>
                     </div>
@@ -194,7 +205,7 @@ if (isset($_GET["action"])) {
             <div class="panel-title">
                 Manage Tests
                 <div class="pull-right">
-                    <a href="test.php?action=add" class="btn btn-sm btn-success">Add Test</a>
+                    <a href="test.php?action=add<?php echo $params ?>" class="btn btn-sm btn-success">Add Test</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -214,12 +225,22 @@ if (isset($_GET["action"])) {
                 </tr>
                 <?php
                 try {
-                    $db->query("SELECT * FROM tests");
+                    $stmt = '
+                        SELECT t.*, d.department_name,c.course_name,i.user_name 
+                        FROM tests t
+                        LEFT JOIN departments d
+                        ON d.department_id = t.test_department
+                        LEFT JOIN courses c
+                        ON c.course_id = t.test_course
+                        LEFT JOIN users i
+                        ON i.user_id = t.test_teacher
+                        WHERE t.test_department = ?
+                        AND t.test_semester = ?
+                        AND t.test_course = ?
+                    ';
+                    $db->query($stmt,[$department,$semester,$course]);
                     $v = new Database();
                     while ($r = $db->fetchObject()) {
-                        $department = $v->queryValues("SELECT department_name FROM departments WHERE department_id = ?", "department_name",array($r->test_department));
-                        $teacher = $v->queryValues("SELECT user_name FROM users WHERE user_id = ?", "user_name",array($r->test_teacher));
-                        $course = $v->queryValues("SELECT course_name FROM courses WHERE course_id = ?", "course_name",array($r->test_course));
                         echo "
                             <tr>
                                 <td>$r->test_name</td>
@@ -231,9 +252,9 @@ if (isset($_GET["action"])) {
                                 <td>" . date("l d F Y", strtotime($r->test_date)) . "</td>
                                 <td>
                                     <div class='btn-group'>
-                                        <a href='test-result.php?tid=$r->test_id' class='btn btn-success'>View</a>
-                                        <a href='test.php?action=edit&amp;id=$r->test_id' class='btn btn-primary'>Edit</a>
-                                        <a href='test.php?action=delete&amp;id=$r->test_id' class='btn btn-danger'>Delete</a>
+                                        <a href='test-result.php?tid=$r->test_id&amp;$params' class='btn btn-success'>View</a>
+                                        <a href='test.php?action=edit&amp;id=$r->test_id&amp;$params' class='btn btn-primary'>Edit</a>
+                                        <a href='test.php?action=delete&amp;id=$r->test_id&amp;$params' class='btn btn-danger'>Delete</a>
                                     </div>
                                 </td>
                             </tr>
@@ -250,4 +271,4 @@ if (isset($_GET["action"])) {
 }
 ?>
 
-<?php require 'footer.php' ?>
+<?php require __DIR__.'/footer.php' ?>
