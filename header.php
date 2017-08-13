@@ -57,6 +57,7 @@ require __DIR__ . '/inc/loader.php';
                         <?php
                     }
                     ?>
+                    <li><a href="admin"><i class="glyphicon glyphicon-log-in"></i> Teacher Login</a></li>
                     <li><a href="admin"><i class="glyphicon glyphicon-log-in"></i> Admin Login</a></li>
                 </ul>
             </div>
@@ -68,12 +69,14 @@ require __DIR__ . '/inc/loader.php';
                         <img src="content/theme/img/mPurpose-logo.png" alt="Multipurpose Twitter Bootstrap Template">
                     </a>
                 </li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="page.php?id=1">About us</a></li>
                 <?php
-                $db = new Database();
-                $db->query("SELECT * FROM menus ORDER BY menu_order ASC");
-                while ($r = $db->fetchObject()) {
-                    echo "<li><a href='$r->menu_link' title='$r->menu_title'>$r->menu_label</a>
-                        </li>";
+                if (!empty($_SESSION['std_name'])) {
+                    ?>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="library.php">Library</a></li>
+                    <?php
                 }
                 ?>
             </ul>

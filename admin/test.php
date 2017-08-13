@@ -13,10 +13,10 @@ if (isset($_GET["action"])) {
             <div class="panel-heading">
                 <div class="panel-title">
                     Add Test
-                </div>
-                <div class="btn-group btn-group-sm pull-right">
-                    <a href="test.php?<?php echo $params ?>">All Tests</a>
-                    <div class="clearfix"></div>
+                    <div class="btn-group btn-group-sm pull-right">
+                        <a href="test.php?<?php echo $params ?>" class="btn btn-success">All Tests</a>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
             <div class="panel-body">
@@ -24,7 +24,7 @@ if (isset($_GET["action"])) {
                 if (isset($_POST["publish"])) {
                     $name = cleanString($_POST["name"]);
                     $body = $_POST["body"];
-                    $teacher = cleanString($_POST["teacher"]);
+                    $teacher = $_SESSION['user_id'];
                     $date = cleanString($_POST["date"]);
                     $marks = cleanString($_POST["marks"]);
                     if (empty($name) || empty($date)) {
@@ -42,7 +42,7 @@ if (isset($_GET["action"])) {
                     }
                 }
                 ?>
-                <form method="post" action="test.php?action=add">
+                <form method="post" action="test.php?action=add&amp;<?php echo $params ?>">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" class="form-control" required="" />
@@ -53,25 +53,25 @@ if (isset($_GET["action"])) {
                     </div>
                     <div class="form-group">
                         <label>Teacher</label>
-                        <select name="teacher" class="form-control">
-                            <?php echo list_teacher(); ?>
+                        <select name="teacher" class="form-control" disabled>
+                            <?php echo list_teacher($_SESSION['user_id']); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Department</label>
-                        <select name="department" class="form-control" readonly="">
+                        <select name="department" class="form-control" disabled>
                             <?php echo list_departments($department); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Semester</label>
-                        <select name="semester" class="form-control" readonly="">
+                        <select name="semester" class="form-control" disabled>
                             <?php echo list_semesters($semester); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Course</label>
-                        <select name="course" class="form-control" readonly="">
+                        <select name="course" class="form-control" disabled>
                             <?php echo list_courses($course); ?>
                         </select>
                     </div>
@@ -90,29 +90,30 @@ if (isset($_GET["action"])) {
         <?php
     } else if ($a === "edit") {
         if (isset($_GET["id"])) {
-            $id = intval(cleanString($_GET["id"]));
+            $id = (int)cleanString($_GET["id"]);
             ?>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="panel-title">
                     Edit Test
+                    <div class="btn-group btn-group-sm pull-right">
+                        <a href="test.php?<?php echo $params ?>" class="btn btn-success">
+                            All Tests
+                        </a>
+                        <a href="test.php?action=add&amp;<?php echo $params ?>" class="btn btn-primary">
+                            Add Test
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-                <div class="btn-group btn-group-sm pull-right">
-                    <a href="test.php?<?php echo $params ?>" class="btn btn-success">
-                        All Tests
-                    </a>
-                    <a href="test.php?action=add&amp;<?php echo $params ?>" class="btn btn-primary">
-                        Add Test
-                    </a>
-                    <div class="clearfix"></div>
-                </div>
+
             </div>
             <div class="panel-body">
                 <?php
                 if (isset($_POST["publish"])) {
                     $name = cleanString($_POST["name"]);
                     $body = $_POST["body"];
-                    $teacher = cleanString($_POST["teacher"]);
+                    $teacher = $_SESSION['user_id'];
                     $date = cleanString($_POST["date"]);
                     $marks = cleanString($_POST["marks"]);
                     if (empty($name) || empty($date)) {
@@ -122,7 +123,7 @@ if (isset($_GET["action"])) {
                             $date = date("Y-m-d", strtotime($date));
                             $stmt = "UPDATE tests SET test_name = ?, test_body = ?,"
                                     . "test_teacher = ?, test_department = ?,"
-                                    . "test_semester = ?, test_course = ?,"
+                                    . 'test_semester = ?, test_course = ?,'
                                     . "test_date = ?, test_marks = ? WHERE "
                                     . "test_id = ?";
                             $args = array($name, $body,$teacher,$department,$semester,$course,$date,$marks,$id);
@@ -136,7 +137,7 @@ if (isset($_GET["action"])) {
                 $db->query("SELECT * FROM tests WHERE test_id = ?",array($id));
                 $r = $db->fetchObject();
                 ?>
-                <form method="post" action="test.php?action=add">
+                <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" value="<?php echo $r->test_name ?>" class="form-control" required="" />
@@ -147,25 +148,25 @@ if (isset($_GET["action"])) {
                     </div>
                     <div class="form-group">
                         <label>Teacher</label>
-                        <select name="teacher" class="form-control">
+                        <select name="teacher" class="form-control" disabled>
                             <?php echo list_teacher($r->test_teacher); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Department</label>
-                        <select name="department" class="form-control" readonly="">
+                        <select name="department" class="form-control" disabled>
                             <?php echo list_departments($r->test_department); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Semester</label>
-                        <select name="semester" class="form-control" readonly="">
+                        <select name="semester" class="form-control" disabled>
                             <?php echo list_semesters($r->test_semester); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Course</label>
-                        <select name="course" class="form-control" readonly="">
+                        <select name="course" class="form-control" disabled>
                             <?php echo list_courses($r->test_course); ?>
                         </select>
                     </div>
@@ -185,14 +186,14 @@ if (isset($_GET["action"])) {
         }
     } else if ($a === "delete") {
         if (isset($_GET["id"])) {
-            $id = intval(cleanString($_GET["id"]));
+            $id = (int)cleanString($_GET["id"]);
             try {
-                $db->runQuery("DELETE FROM tests WHERE test_id = ?", array($id));
+                $db->runQuery('DELETE FROM tests WHERE test_id = ?', array($id));
                 msgBox("ok", "Test Deleted");
-                header("refresh:1;url=test.php");
+                header('refresh:1;url=test.php');
             } catch (PDOException $e) {
-                msgBox("erorr", $e->getMessage());
-                header("refresh:3;url=test.php");
+                msgBox('error', $e->getMessage());
+                header('refresh:3;url=test.php');
             }
         }
     } else {
@@ -205,7 +206,7 @@ if (isset($_GET["action"])) {
             <div class="panel-title">
                 Manage Tests
                 <div class="pull-right">
-                    <a href="test.php?action=add<?php echo $params ?>" class="btn btn-sm btn-success">Add Test</a>
+                    <a href="test.php?action=add&amp;<?php echo $params ?>" class="btn btn-sm btn-success">Add Test</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -237,17 +238,19 @@ if (isset($_GET["action"])) {
                         WHERE t.test_department = ?
                         AND t.test_semester = ?
                         AND t.test_course = ?
+                        AND t.test_teacher = ?
                     ';
-                    $db->query($stmt,[$department,$semester,$course]);
+
+                    $db->query($stmt,[$department,$semester,$course,$_SESSION['user_id']]);
                     $v = new Database();
                     while ($r = $db->fetchObject()) {
                         echo "
                             <tr>
                                 <td>$r->test_name</td>
-                                <td>$teacher->user_name</td>
-                                <td>$department->department_name</td>
+                                <td>$r->user_name</td>
+                                <td>$r->department_name</td>
                                 <td>$r->test_semester</td>
-                                <td>$course->course_name</td>
+                                <td>$r->course_name</td>
                                 <td>$r->test_marks</td>
                                 <td>" . date("l d F Y", strtotime($r->test_date)) . "</td>
                                 <td>

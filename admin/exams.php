@@ -1,9 +1,12 @@
 <?php require 'header.php' ?>
 <?php
 $db = new Database();
+$department = (int) $_GET['d'];
+$semester = (int) $_GET['s'];
+$params = 'd='.$department.'&amp;s='.$semester;
 if (isset($_GET["action"])) {
     $a = cleanString($_GET["action"]);
-    if ($a === "add") {
+    if ($a === 'add') {
         ?>
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -16,8 +19,6 @@ if (isset($_GET["action"])) {
                 if (isset($_POST["publish"])) {
                     $name = cleanString($_POST["name"]);
                     $type = cleanString($_POST["type"]);
-                    $department = cleanString($_POST["department"]);
-                    $semester = cleanString($_POST["semester"]);
                     $date = cleanString($_POST["date"]);
                     if (empty($name) || empty($date)) {
                         msgBox("error", "Please provide all fields");
@@ -49,7 +50,7 @@ if (isset($_GET["action"])) {
                     }
                 }
                 ?>
-                <form method="post" action="exams.php?action=add">
+                <form method="post" action="exams.php?action=add&amp;<?php echo $params ?>">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" class="form-control" required="" />
@@ -63,14 +64,14 @@ if (isset($_GET["action"])) {
                     </div>
                     <div class="form-group">
                         <label>Department</label>
-                        <select name="department" class="form-control">
-                            <?php echo list_departments(); ?>
+                        <select name="department" class="form-control" disabled>
+                            <?php echo list_departments($department); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Semester</label>
-                        <select name="semester" class="form-control">
-                            <?php echo list_semesters(); ?>
+                        <select name="semester" class="form-control" disabled>
+                            <?php echo list_semesters($semester); ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -97,8 +98,6 @@ if (isset($_GET["action"])) {
                     if (isset($_POST["publish"])) {
                         $name = cleanString($_POST["name"]);
                         $type = cleanString($_POST["type"]);
-                        $department = cleanString($_POST["department"]);
-                        $semester = cleanString($_POST["semester"]);
                         $date = cleanString($_POST["date"]);
                         if (empty($name) || empty($date)) {
                             msgBox("error", "Please provide all fields");
@@ -137,13 +136,13 @@ if (isset($_GET["action"])) {
                         </div>
                         <div class="form-group">
                             <label>Department</label>
-                            <select name="department" class="form-control">
+                            <select name="department" class="form-control" disabled>
                                 <?php echo list_departments($r->exam_department); ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Semester</label>
-                            <select name="semester" class="form-control">
+                            <select name="semester" class="form-control" disabled>
                                 <?php echo list_semesters($r->exam_semester); ?>
                             </select>
                         </div>
@@ -166,7 +165,7 @@ if (isset($_GET["action"])) {
                 header("refresh:1;url=exams.php");
             } catch (PDOException $e) {
                 msgBox("erorr", $e->getMessage());
-                header("refresh:3;url=exams.php");
+                header("refresh:3;url=exams.php?".$params);
             }
         }
     } else {
@@ -179,7 +178,7 @@ if (isset($_GET["action"])) {
             <div class="panel-title">
                 Manage Exams
                 <div class="pull-right">
-                    <a href="exams.php?action=add" class="btn btn-sm btn-success">Add Announcement</a>
+                    <a href="exams.php?action=add&amp;<?php echo $params ?>" class="btn btn-sm btn-success">Add Exam</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -197,23 +196,27 @@ if (isset($_GET["action"])) {
                 </tr>
                 <?php
                 try {
-                    $db->query("SELECT * FROM exams");
+                    $stmt = '
+                        SELECT e.*, d.department_name FROM exams e
+                        LEFT JOIN departments d 
+                        ON e.exam_department = d.department_id
+                        WHERE d.department_id = ?
+                    ';
+                    $db->query($stmt,[$department]);
                     $cdb = new Database();
                     while ($r = $db->fetchObject()) {
-                        $cdb->query("SELECT department_name FROM departments WHERE department_id = ?", array($r->exam_department));
-                        $course = $cdb->fetchObject()->department_name;
                         echo "
                             <tr>
                                 <td>$r->exam_name</td>
                                 <td>$r->exam_type</td>
-                                <td>$course</td>
+                                <td>$r->department_name</td>
                                 <td>$r->exam_semester</td>
-                                <td>" . date("l d F Y", strtotime($r->exam_date)) . "</td>
+                                <td>" . date('l d F Y', strtotime($r->exam_date)) . "</td>
                                 <td>
                                     <div class='btn-group'>
-                                        <a href='exam-result.php?exam_id=$r->exam_id' class='btn btn-success'>View</a>
-                                        <a href='exams.php?action=edit&amp;id=$r->exam_id' class='btn btn-primary'>Edit</a>
-                                        <a href='exams.php?action=delete&amp;id=$r->exam_id' class='btn btn-danger'>Delete</a>
+                                        <a href='exam-result.php?exam_id=$r->exam_id&amp;$params' class='btn btn-success'>View</a>
+                                        <a href='exams.php?action=edit&amp;id=$r->exam_id&amp;$params' class='btn btn-primary'>Edit</a>
+                                        <a href='exams.php?action=delete&amp;id=$r->exam_id&amp;$params' class='btn btn-danger'>Delete</a>
                                     </div>
                                 </td>
                             </tr>

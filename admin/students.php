@@ -1,7 +1,7 @@
 <?php require 'header.php' ?>
 <?php
 if ($_SESSION["user_level"] !== "admin") {
-    die(msgBox("error", "WHat are you looking for?"));
+    //die(msgBox("error", "WHat are you looking for?"));
 }
 $db = new Database();
 if (isset($_GET["action"])) {

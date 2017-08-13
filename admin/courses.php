@@ -1,10 +1,11 @@
 <?php require 'header.php' ?>
 <?php
 $db = new Database();
+$department = cleanString($_GET['d']);
+$semester = cleanString($_GET['s']);
+$params = 'd='.$department.'&amp;s='.$semester;
 if (isset($_GET["action"])) {
     $a = cleanString($_GET["action"]);
-    $department = (int)cleanString($_GET['d']);
-    $semester = (int)cleanString($_GET['s']);
     if ($a === "add") {
         ?>
         <div class="panel panel-primary">
@@ -34,16 +35,16 @@ if (isset($_GET["action"])) {
                     }
                 }
                 ?>
-                <form method="post" action="courses.php?action=add">
+                <form method="post" action="courses.php?action=add&amp;<?php echo $params ?>">
                     <div class="form-group">
                         <label>Course Department</label>
-                        <select name="department" class="form-control" readonly="">
+                        <select name="department" class="form-control" disabled>
                             <?php echo list_departments($department); ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Course Semester</label>
-                        <select name="semester" class="form-control" readonly="">
+                        <select name="semester" class="form-control" disabled>
                             <?php echo list_semesters($semester); ?>
                         </select>
                     </div>
@@ -78,7 +79,7 @@ if (isset($_GET["action"])) {
                         <div class="panel-title">
                             Update Course
                             <div class="pull-right">
-                                <a href="courses.php" class="btn btn-sm btn-success">Back</a>
+                                <a href="courses.php?<?php echo $params ?>" class="btn btn-sm btn-success">Back</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -114,13 +115,13 @@ if (isset($_GET["action"])) {
                         <form method="post" action="<?php echo $_SERVER["REQUEST_URI"] ?>">
                             <div class="form-group">
                                 <label>Course Department</label>
-                                <select name="department" class="form-control" readonly="">
+                                <select name="department" class="form-control" disabled>
                                     <?php echo list_departments($r->course_department); ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Course Semester</label>
-                                <select name="semester" class="form-control" readonly="">
+                                <select name="semester" class="form-control" disabled>
                                     <?php echo list_semesters($r->course_semester); ?>
                                 </select>
                             </div>
@@ -170,9 +171,7 @@ if (isset($_GET["action"])) {
         }
     }
 } else {
-    $department = (int)cleanString($_GET['d']);
-    $semester = (int)cleanString($_GET['s']);
-    $params = '&amp;d='.$department.'&amp;s='.$semester;
+    $params = '&amp;d=' . $department . '&amp;s=' . $semester;
     ?>
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -218,6 +217,9 @@ if (isset($_GET["action"])) {
                                     <div class='btn-group btn-group-sm'>
                                         <a href='test.php?c=$r->course_id&amp;$params' class='btn btn-success'>
                                             Manage test
+                                        </a>
+                                        <a href='assignments.php?c=$r->course_id&amp;$params' class='btn btn-success'>
+                                            Manage Assignments
                                         </a>
                                         <a href='courses.php?action=edit&amp;id=$r->course_id.$params' class='btn btn-primary'>Edit</a>
                                         <a href='courses.php?action=delete&amp;id=$r->course_id' onclick='return cdel()' class='btn btn-danger'>Delete</a>

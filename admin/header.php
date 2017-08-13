@@ -1,7 +1,7 @@
 <?php
 ob_start();
-require __DIR__.'/../config.php';
-require __DIR__.'/../inc/loader.php';
+require __DIR__ . '/../config.php';
+require __DIR__ . '/../inc/loader.php';
 session_start();
 if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_level'])) {
     header('location:login.php');
@@ -58,12 +58,47 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_level'])) {
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.php"><i class="glyphicon glyphicon-home"></i> Home </a></li>
+                <li><a href="departments.php">
+                        <i class="glyphicon glyphicon-list"></i> Departments
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="glyphicon glyphicon-user"></i>
+                        Manage Students
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="students.php">All Students</a></li>
+                        <li><a href="admit-student.php">Admin Students</a></li>
+                        <li><a href="attendance.php">Student Attendance</a></li>
+                    </ul>
+                </li>
+                <li><a href="announcements.php">
+                        <i class="glyphicon glyphicon-list"></i> Announcements
+                    </a>
+                </li>
+                <li><a href="library.php">
+                        <i class="glyphicon glyphicon-list"></i> Library
+                    </a>
+                </li>
+
                 <?php
                 if ($_SESSION["user_level"] == "admin") {
                     ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <i class="glyphicon glyphicon-user"></i>
+                            Administration
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="pages.php"><i class="glyphicon glyphicon-list"></i> Pages </a></li>
+                            <li><a href="menus.php"><i class="glyphicon glyphicon-list-alt"></i> Menus </a></li>
+                            <li class="divider"></li>
+                            <li><a href="teachers.php" class="">Manage Teachers</a></li>
+                            <li><a href="users.php" class="">Manage Users</a></li>
 
-                    <li><a href="pages.php"><i class="glyphicon glyphicon-list"></i> Pages </a></li>
-                    <li><a href="menus.php"><i class="glyphicon glyphicon-list-alt"></i> Menus </a></li>
+                        </ul>
+                    </li>
                     <?php
                 }
                 ?>
@@ -93,9 +128,6 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_level'])) {
                     </div>
                 </div>
                 <div class="list-group">
-                    <a href="departments.php" class="list-group-item">Manage Departments</a>
-                    <a href="courses.php" class="list-group-item">Manage Courses</a>
-                    <a href="admit-student.php" class="list-group-item">Admit Students</a>
                     <?php
                     if ($_SESSION["user_level"] == "admin") {
                         ?>
@@ -104,17 +136,13 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_level'])) {
                     }
                     ?>
                     <a href="announcements.php" class="list-group-item">Announcements</a>
-                    <a href="attendance.php" class="list-group-item">Attendance</a>
                     <a href="library.php" class="list-group-item">Library</a>
-                    <a href="exams.php" class="list-group-item">Manage Exams</a>
-                    <a href="test.php" class="list-group-item">Manage Test</a>
-                    <a href="students.php" class="list-group-item">Manage Students</a>
-                    <a href="assignments.php" class="list-group-item">Manage Assignments</a>
                     <?php
                     if ($_SESSION["user_level"] == "admin") {
                         ?>
                         <a href="teachers.php" class="list-group-item">Manage Teachers</a>
                         <a href="users.php" class="list-group-item">Manage Users</a>
+
                         <?php
                     }
                     ?>

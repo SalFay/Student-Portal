@@ -157,7 +157,6 @@ if (isset($_GET["action"])) {
                                 <td>".date("D d F Y",  strtotime($r->announcement_date))."</td>
                                 <td>
                                     <div class='btn-group'>
-                                        <a href='' class='btn btn-success'>View</a>
                                         <a href='announcements.php?action=edit&amp;id=$r->announcement_id' class='btn btn-primary'>Edit</a>
                                         <a href='announcements.php?action=delete&amp;id=$r->announcement_id' class='btn btn-danger'>Delete</a>
                                     </div>
