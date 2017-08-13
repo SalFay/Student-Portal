@@ -32,6 +32,9 @@ $dep = $db->fetchObject();
                         <a href="courses.php<?php echo $param ?>" class="btn btn-primary">
                             Manage Courses
                         </a>
+                        <a href="exams.php<?php echo $param ?>" class="btn btn-primary">
+                            Manage Exams
+                        </a>
                     </td>
                 </tr>
                 <?php

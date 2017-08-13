@@ -77,6 +77,11 @@ if (isset($_GET["do"])) {
         <div class="panel-heading">
             <div class="panel-title">
                 Assigned Teachers
+                <div class="pull-right">
+                    <a href="admit-teachers.php?do=add">
+                        Admit Teacher
+                    </a>
+                </div>
             </div>
         </div>
         <div class="panel-body">

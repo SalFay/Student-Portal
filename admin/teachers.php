@@ -133,7 +133,7 @@ if (isset($_GET["action"])) {
                     $db->query("SELECT * FROM users WHERE user_id = ?",array($id));
                     $r = $db->fetchObject();
                     ?>
-                    <form method="post" action="teachers.php?action=add">
+                    <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
                         <div class="form-group">
                             <label>Login</label>
                             <input type="text" name="login" value="<?php echo $r->user_login ?>" class="form-control" required="" />
@@ -225,7 +225,6 @@ if (isset($_GET["action"])) {
                                 <td>$r->user_email</td>
                                 <td>
                                     <div class='btn-group'>
-                                        <a href='' class='btn btn-success'>View</a>
                                         <a href='teachers.php?action=edit&amp;id=$r->user_id' class='btn btn-primary'>Edit</a>
                                         <a href='teachers.php?action=delete&amp;id=$r->user_id' class='btn btn-danger'>Delete</a>
                                     </div>

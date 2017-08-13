@@ -1,13 +1,14 @@
 <?php
 require 'header.php';
 $db = new Database();
+
 if (isset($_GET["exam_id"])) {
-    $exam_id = intval($_GET["exam_id"]);
+    $exam_id = (int)$_GET["exam_id"];
     if (isset($_GET["do"])) {
         $do = cleanString($_GET["do"]);
         if ($do == "edit") {
             if (isset($_GET["id"])) {
-                $id = intval($_GET["id"]);
+                $id = (int)$_GET["id"];
                 ?>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -101,6 +102,9 @@ if (isset($_GET["exam_id"])) {
             <div class="panel-heading">
                 <div class="panel-title">
                     Manage Exam (<?php echo $db->queryValues("SELECT exam_name FROM exams WHERE exam_id = ?", "exam_name", $exam_id)->exam_name; ?>)
+                    <a href="">
+                        Declare Result
+                    </a>
                 </div>
             </div>
             <div class="panel-body">
